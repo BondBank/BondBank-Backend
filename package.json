@@ -1,0 +1,29 @@
+{
+  "name": "hardhat-project",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "slither": "slither . --solc-remaps '@openzeppelin=node_modules/@openzeppelin @chainlink=node_modules/@chainlink' --exclude naming-convention,external-function,low-level-calls",
+    "toolbox": "docker run -it --rm -v $PWD:/src trailofbits/eth-security-toolbox",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "solhint 'contracts/BlockPlot/*.sol'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^1.0.2",
+    "@nomiclabs/hardhat-ethers": "^2.1.1",
+    "@nomiclabs/hardhat-solhint": "^2.0.1",
+    "ethers": "^5.7.0",
+    "hardhat": "^2.11.0",
+    "solidity-coverage": "^0.7.22"
+  },
+  "dependencies": {
+    "@chainlink/contracts": "^0.5.1",
+    "@openzeppelin/contracts": "^4.7.3",
+    "dotenv": "^16.0.2",
+    "hardhat-contract-sizer": "^2.6.1",
+    "hardhat-gas-reporter": "^1.0.8"
+  }
+}

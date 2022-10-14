@@ -1,5 +1,13 @@
-# BondBank
+# Sample Hardhat Project
 
-This is a defi project that will use ERC1155 to issue ETFs/Bonds to investors
+This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
 
-Motivation: For unsophisticated investors, there are very limited ways to gain exposure to various defi protocols. This projects aims to make this process simple by offering investors a financial instrument (ERC1155 token) that provides that exposure to the market.
+Try running some of the following tasks:
+
+```shell
+npx hardhat help
+npx hardhat test
+GAS_REPORT=true npx hardhat test
+npx hardhat node
+npx hardhat run scripts/deploy.js
+```

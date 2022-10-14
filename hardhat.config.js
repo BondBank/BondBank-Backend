@@ -19,6 +19,7 @@ module.exports = {
   },
   networks: {
     hardhat: {
+      // uncomment to simulate executing tests on a mainnet fork
       // forking: {
       //   url: `https://polygon-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_PROVIDER}`, //"https://rpc.ankr.com/polygon"
       // },

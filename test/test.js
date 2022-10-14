@@ -5,24 +5,37 @@ const { ethers } = require("hardhat");
 
 describe("BondERC1155", function () {
   async function initializeContract() {
-    const BondERC1155 = await ethers.getContractFactory("BondERC1155");
-    const bondERC1155 = await BondERC1155.deploy("bondbank");
+    const BondToken = await ethers.getContractFactory("BondToken");
+    const bondToken = await BondToken.deploy("bondtoken");
 
-    return { bondERC1155 };
+    return { bondToken };
   }
 
   describe("Testout", function () {
     it("Testing...", async function () {
-      const { bondERC1155 } = await loadFixture(initializeContract);
+      const { bondToken } = await loadFixture(initializeContract);
 
-      await bondERC1155.initializeBond(0, "Bond Class A", 12);
+      await bondToken.initializeBond(0, "Bond Class A", 12);
 
-      const bal = await bondERC1155.balanceOf(
+      const bal = await bondToken.balanceOf(
         "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
-        1
+        0
       );
       console.log(bal);
-      expect(bal).to.equal(0);
+
+      await bondToken.mint(
+        "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        0,
+        10,
+        "0x"
+      );
+      const newBal = await bondToken.balanceOf(
+        "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        0
+      );
+      console.log(newBal);
+
+      expect(newBal.sub(bal)).to.equal(10);
     });
   });
 });

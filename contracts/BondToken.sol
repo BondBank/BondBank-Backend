@@ -6,7 +6,7 @@ pragma solidity ^0.8.0;
 import "./BondERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Bond is Ownable, BondERC1155 {
+contract BondToken is Ownable, BondERC1155 {
     constructor(string memory uri_) BondERC1155(uri_) {}
 
     function _beforeTokenTransfer(

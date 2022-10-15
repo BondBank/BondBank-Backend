@@ -7,7 +7,7 @@ Motivation: For unsophisticated investors, there are very limited ways to gain e
 ## TeamMembers
 
    ### SmartContract Developers:
-    [Harish](https://github.com/BlockchainDeveloper009)
+    [Harish] (https://github.com/BlockchainDeveloper009)
     [Michael](https://github.com/AmadiMichael)
     [Joel] (https://github.com/JJtheAndroid)
       

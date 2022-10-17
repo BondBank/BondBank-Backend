@@ -2,6 +2,7 @@ const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
 const { anyValue } = require("@nomicfoundation/hardhat-chai-matchers/withArgs");
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
+const { x } = require("../abi.js");
 
 describe("BondERC1155", function () {
   async function initializeContract() {
@@ -34,6 +35,10 @@ describe("BondERC1155", function () {
         0
       );
       console.log(newBal);
+
+      const contractInterface = new ethers.utils.Interface(x);
+      let data = contractInterface.encodeFunctionData("inc", [3]);
+      console.log(data);
 
       expect(newBal.sub(bal)).to.equal(10);
     });

@@ -15,9 +15,13 @@ contract BondERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
 
     // JSON-like structure containing info on each bond
     struct Info {
-        string description;
-        uint256 interestRate;
-        uint256 totalSupply;
+        string bondName;
+        uint256 bondCreationDate;
+        uint256 bondStartDate;
+        uint256 bondMaturityDate;
+        uint256 bondUnitPrice;
+        uint256 bondMaxUnit;
+        uint256 availableUnits;
         mapping(address => uint256) _balances;
     }
 
@@ -35,15 +39,6 @@ contract BondERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
      */
     constructor(string memory uri_) {
         _setURI(uri_);
-    }
-
-    function initializeBond(
-        uint256 assetId,
-        string memory description,
-        uint256 interestRate
-    ) public {
-        bondInfo[assetId].description = description;
-        bondInfo[assetId].interestRate = interestRate;
     }
 
     /**

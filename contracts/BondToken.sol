@@ -17,7 +17,9 @@ contract BondToken is Ownable, BondERC1155 {
         uint256 bondStartDate,
         uint256 bondMaturityDate,
         uint256 bondUnitPrice,
-        uint256 bondMaxUnit
+        uint256 bondMaxUnit,
+        address UniswapBond;
+
     );
 
     constructor(string memory uri_) BondERC1155(uri_) {}

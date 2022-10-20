@@ -18,7 +18,7 @@ contract BondToken is Ownable, BondERC1155 {
         uint256 bondMaturityDate,
         uint256 bondUnitPrice,
         uint256 bondMaxUnit,
-        address UniswapBond;
+        address UniswapBond
 
     );
 

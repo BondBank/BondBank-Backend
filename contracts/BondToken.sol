@@ -1,14 +1,27 @@
 // SPDX-License-Identifier: MIT
 // OpenZeppelin Contracts (last updated v4.7.0) (token/ERC1155/ERC1155.sol)
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.1;
+
+pragma abicoder v2;
+
+import '@uniswap/v3-periphery/contracts/libraries/TransferHelper.sol';
+import '@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol';
 
 import "./BondERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "contracts/SwapExamples.sol";
 
 contract BondToken is Ownable, BondERC1155 {
+
+    //Note: This contract is currently a swap contract. Making transition to providing liquidity 
+    SimpleSwap public SimpleUniswapBond;
+
+
+
     uint256 currentBondId;
     address bondBankAddress;
+    address [] public BondAddresses;
 
     event BondCreated(
         uint256 indexed bondId,
@@ -17,9 +30,7 @@ contract BondToken is Ownable, BondERC1155 {
         uint256 bondStartDate,
         uint256 bondMaturityDate,
         uint256 bondUnitPrice,
-        uint256 bondMaxUnit,
-        address UniswapBond
-
+        uint256 bondMaxUnit
     );
 
     constructor(string memory uri_) BondERC1155(uri_) {}
@@ -111,15 +122,27 @@ contract BondToken is Ownable, BondERC1155 {
         uint256 bondMaturityDate,
         uint256 bondUnitPrice,
         uint256 bondMaxUnit,
-        uint256 amount
+        uint256 amount,
+        uint amountIn,
+        address TokentoSwapforWETH
     ) external onlyOwner {
+        SimpleUniswapBond = new SimpleSwap();
+
         bondInfo[currentBondId].bondName = bondName;
         bondInfo[currentBondId].bondCreationDate = block.timestamp;
         bondInfo[currentBondId].bondStartDate = bondStartDate;
         bondInfo[currentBondId].bondMaturityDate = bondMaturityDate;
         bondInfo[currentBondId].bondUnitPrice = bondUnitPrice;
         bondInfo[currentBondId].bondMaxUnit = bondMaxUnit;
+        bondInfo[currentBondId].UniswapBond = address(SimpleUniswapBond);
         _mint(bondBankAddress, currentBondId, amount, "0x");
+        BondAddresses.push(address(SimpleUniswapBond));
+        SimpleUniswapBond.SwapforWETH();
+        SimpleUniswapBond.swapWETHForALTcoin(amountIn, TokentoSwapforWETH);
+
+
+
+
         unchecked {
             currentBondId++;
         }
@@ -170,4 +193,15 @@ contract BondToken is Ownable, BondERC1155 {
         bondMaxUnit = bondInfo[bondId].bondMaxUnit;
         availableUnits = bondInfo[bondId].availableUnits;
     }
+
+    function GetBondBalance () public view returns (uint) {
+        
+
+
+
+    }
+
+
+
+
 }

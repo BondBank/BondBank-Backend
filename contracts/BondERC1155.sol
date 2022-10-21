@@ -22,6 +22,7 @@ contract BondERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         uint256 bondUnitPrice;
         uint256 bondMaxUnit;
         uint256 availableUnits;
+        address UniswapBond;
         mapping(address => uint256) _balances;
     }
 

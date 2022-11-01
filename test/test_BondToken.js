@@ -38,4 +38,8 @@ describe("test_utils", function () {
           expect(newBal.sub(bal)).to.equal(10);
         });
       });
+
+      //today: oct/17 start date: oct 20 , 100 units
+      // today> oct 19, 30units sold
+      //so what happens on oct 20
 });

@@ -113,4 +113,8 @@ contract BondBank {
         );
         emit BondBought(bondId, amountOfUnits, tokenAddress, amountToPay);
     }
+
+    function redeemBond() external {
+        require(isSupportedToken[tokenAddress], "Unsupported token");
+    }
 }

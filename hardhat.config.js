@@ -6,6 +6,9 @@ require("@nomiclabs/hardhat-solhint");
 require("@nomiclabs/hardhat-ethers");
 require("dotenv").config();
 
+const GOERLI_RPC_URL =
+    process.env.GOERLI_RPC_URL || "https://eth-goerli.alchemyapi.io/v2/your-api-key"
+
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: {
@@ -31,6 +34,14 @@ module.exports = {
       chainId: 80001,
       accounts: [process.env.PRIVATE_KEY1, process.env.PRIVATE_KEY2],
     },
+    goerli: {
+      url: GOERLI_RPC_URL,
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      //   accounts: {
+      //     mnemonic: MNEMONIC,
+      //   },
+      chainId: 5,
+  },
   },
 
   contractSizer: {
@@ -43,8 +54,10 @@ module.exports = {
   gasReporter: {
     enabled: true,
     currency: "USD",
+    outputFile: "gas-report.txt",
     coinmarketcap: process.env.COINMARKETCAP_APIKEY,
     token: "MATIC",
     gasPriceApi: `https://api.polygonscan.com/api?module=proxy&action=eth_gasPrice&apiKey=${process.env.POLYGONSCAN_APIKEY}`,
   },
 };
+//BondERC1155

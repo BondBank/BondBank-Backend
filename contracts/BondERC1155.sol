@@ -9,6 +9,10 @@ import "@openzeppelin/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
+import "./AaveforLINK.sol";
+import "./AaveforWBTC.sol";
+import "./AaveforWETH.sol";
+
 
 contract BondERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
     using Address for address;
@@ -16,13 +20,16 @@ contract BondERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
     // JSON-like structure containing info on each bond
     struct Info {
         string bondName;
-        uint256 bondCreationDate;
+        uint256 bondCreationDate; //why do we need this? sounds similar to the variable below 
         uint256 bondStartDate;
         uint256 bondMaturityDate;
         uint256 bondUnitPrice;
         uint256 bondMaxUnit;
         uint256 availableUnits;
-        address UniswapBond;
+       // uint amounttoputinWBTC;
+       // uint amounttoputinWETH;
+        address BondManager;
+
         mapping(address => uint256) _balances;
     }
 
@@ -38,6 +45,7 @@ contract BondERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
     /**
      * @dev See {_setURI}.
      */
+     //Joel: Why do we need this 
     constructor(string memory uri_) {
         _setURI(uri_);
     }
@@ -343,7 +351,9 @@ contract BondERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
      * - If `to` refers to a smart contract, it must implement {IERC1155Receiver-onERC1155BatchReceived} and return the
      * acceptance magic value.
      */
-    function _mintBatch(
+
+     //Joel: Not sure if we need this 
+   /* function _mintBatch(
         address to,
         uint256[] memory ids,
         uint256[] memory amounts,
@@ -375,7 +385,7 @@ contract BondERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
             amounts,
             data
         );
-    }
+    }*/
 
     /**
      * @dev Destroys `amount` tokens of token type `id` from `from`

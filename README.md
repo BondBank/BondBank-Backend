@@ -13,8 +13,8 @@ Motivation: For unsophisticated investors, there are very limited ways to gain e
       
    ### FrontEnd Developers:
    
-    [James](https://github.com/KodeSage)
-    [Nick](https://github.com/techbronick)
+   
+    
     
    
 ## Flows:

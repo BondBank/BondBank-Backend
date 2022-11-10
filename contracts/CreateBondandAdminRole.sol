@@ -216,11 +216,15 @@ contract CreateBondandAdminRole is BondERC1155 {
 
     //this function is to initialize the admin role. This will provide the devs with funds 
     function addADMINrole () internal  {
-        link.transfer(address(this), 100);
+        link.transfer(address(this), 0);
         adminrole[msg.sender] = true;    
     }
-    
-
+    // can remove adminrole for an address
+    function removeADMINrole () external  {
+         
+        
+        adminrole[msg.sender] = false;    
+    }
 
 
 

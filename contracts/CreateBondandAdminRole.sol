@@ -7,13 +7,20 @@ pragma abicoder v2;
 
 
 
-import "./BondERC1155.sol";
+
 import "./AaveforLINK.sol";
 import "./AaveforWBTC.sol";
 import "./AaveforWETH.sol";
+import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
+import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 
 
-contract CreateBondandAdminRole is BondERC1155 {
+contract CreateBondandAdminRole is ERC1155, ERC1155Holder{
+
+     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC1155, ERC1155Receiver) returns (bool) {
+        return super.supportsInterface(interfaceId);
+    }
 
    
 
@@ -21,11 +28,27 @@ contract CreateBondandAdminRole is BondERC1155 {
      AaveforWBTC public WBTC;
      AaveforWETH public WETH;
 
+     address[] public buyers;
+
+    // JSON-like structure containing info on each bond
+    struct Info {
+        string bondName;
+        uint256 bondStartDate;
+        uint256 bondMaturityDate;
+        uint256 bondUnitPrice;
+        address BondManager;
+        address[] buyers;
+
+    }
+
+    // mapping of a bond to its information (of type Info above)
+    mapping(uint256 => Info) public bondInfo;
+
     
 
 
     //this address is for AaveLink. Note that this is different from regular Test LINK
-     address public immutable linkAddress =
+     address public constant linkAddress =
         0x07C725d58437504CA5f814AE406e70E21C5e8e9e;
     IERC20 public link;
 
@@ -44,6 +67,9 @@ contract CreateBondandAdminRole is BondERC1155 {
 
     uint256 currentBondId;
     address bondBankAddress;
+
+    //this line is to create an array to keep track of the bonds
+    Info[] public BondsinExistence;
     
     
 
@@ -56,14 +82,13 @@ contract CreateBondandAdminRole is BondERC1155 {
     event BondCreated(
         uint256 indexed bondId,
         string indexed bondName,
-        uint256 bondCreationDate,
         uint256 bondStartDate,
         uint256 bondMaturityDate,
-        uint256 bondUnitPrice,
-        uint256 bondMaxUnit
+        uint256 bondUnitPrice
+       
     );
 
-    constructor(string memory uri_) BondERC1155("") {
+    constructor(string memory uri_) ERC1155 ("") {
           link = IERC20(linkAddress);
           weth = IERC20(wethAddress);
           wbtc = IERC20(wbtcAddress);
@@ -71,7 +96,7 @@ contract CreateBondandAdminRole is BondERC1155 {
     }
 
     //Contract is becoming too big. Should this function be here?
-    function _beforeTokenTransfer(
+   /* function _beforeTokenTransfer(
         address,
         address from,
         address to,
@@ -103,7 +128,7 @@ contract CreateBondandAdminRole is BondERC1155 {
                 }
             }
         }
-    }
+    }*/
 
    
     //@params account: address of account to burn from
@@ -148,37 +173,36 @@ contract CreateBondandAdminRole is BondERC1155 {
 
     function createBond(
         string memory bondName,
-        uint256 bondStartDate,
         uint256 bondMaturityDate,
         uint256 bondUnitPrice,
-        uint256 bondMaxUnit,
+      
+        //amount is not part of struct, just an input for the amount of bonds to buy
         uint256 amount
 
-        //these variables should not be needed as the contract will divide the investor funds equally
-        //uint amounttoputinWBTC,
-        //uint amounttoputinWETH
-        //bond unit price should be equal to amounttputinWBTC + amounttoputinWETH
-        
-        
+       
     ) external  {
         require (adminrole[msg.sender] == true, "You must be an admin to do this");
 
 
         bondInfo[currentBondId].bondName = bondName;
-        bondInfo[currentBondId].bondCreationDate = block.timestamp;
-        bondInfo[currentBondId].bondStartDate = bondStartDate;
+        bondInfo[currentBondId].bondStartDate = block.timestamp;
         bondInfo[currentBondId].bondMaturityDate = bondMaturityDate;
         bondInfo[currentBondId].bondUnitPrice = bondUnitPrice;
-        bondInfo[currentBondId].bondMaxUnit = bondMaxUnit;
 
-    
-        //bondInfo[currentBondId].amounttoputinWBTC = amounttoputinWBTC;
-        //bondInfo[currentBondId].amounttoputinWETH = amounttoputinWETH;
-        
         bondInfo[currentBondId].BondManager = msg.sender;
-         
+
        
-        _mint(bondBankAddress, currentBondId, amount, "0x");
+       
+        _mint(address(this), currentBondId, amount, "0x");
+
+    BondsinExistence.push(Info(bondName,
+       block.timestamp,
+         bondMaturityDate,
+         bondUnitPrice,  
+         msg.sender,
+         buyers
+    
+    ));
         
 
         unchecked {
@@ -188,16 +212,13 @@ contract CreateBondandAdminRole is BondERC1155 {
             currentBondId - 1,
             bondName,
             block.timestamp,
-            bondStartDate,
             bondMaturityDate,
-            bondUnitPrice,
-            bondMaxUnit
+            bondUnitPrice
+          
         );
     }
 
-    function setBondBankAddress(address newBondBankAddress) external  {
-        bondBankAddress = newBondBankAddress;
-    }
+  
 
 
     //Joel: not sure if we need this function
@@ -215,16 +236,12 @@ contract CreateBondandAdminRole is BondERC1155 {
    
 
     //this function is to initialize the admin role. This will provide the devs with funds 
-    function addADMINrole () internal  {
-        link.transfer(address(this), 0);
+    function addADMINrole () external payable  {
+       // require (msg.value == .001 ether, " please send .001 ether");     
         adminrole[msg.sender] = true;    
     }
-    // can remove adminrole for an address
-    function removeADMINrole () external  {
-         
-        
-        adminrole[msg.sender] = false;    
-    }
+
+   
 
 
 

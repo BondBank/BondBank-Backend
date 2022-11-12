@@ -250,7 +250,7 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
     function getUserCreatedBonds(address addr) external view returns (uint[] memory){
        return userCreatedBonds[addr];
     }
-    function getAllBonds() external returns (Info[] memory) {
+    function getAllBonds() external view returns (Info[] memory) {
        return BondsinExistence;
     }
 

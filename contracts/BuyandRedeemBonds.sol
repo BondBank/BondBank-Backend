@@ -11,7 +11,7 @@ import "./CreateBondandAdminRole.sol";
 import "https://github.com/aave/aave-v3-periphery/blob/7a9542963b8030885443800179c57ff8ffdac29c/contracts/misc/interfaces/IWETHGateway.sol";
 import {IPool} from "@aave/core-v3/contracts/interfaces/IPool.sol";
 import {IPoolAddressesProvider} from "@aave/core-v3/contracts/interfaces/IPoolAddressesProvider.sol";
-import "contracts/Swapexamples.sol";
+import "contracts/SimpleSwap.sol";
 import "contracts/WETHgateway.sol";
 
 
@@ -35,7 +35,7 @@ mapping (address => WETHgateway) public WETHgatewaycontract;
 mapping (address => address) public Swapaddress;
 mapping (address => SimpleSwap) public Swapcontract;
 
-
+mapping (address => uint[]) public bondsByBuyersAddr;
 
 
 address public Pooladdress = 0x368EedF3f56ad10b9bC57eed4Dac65B26Bb667f6;
@@ -51,7 +51,7 @@ constructor() CreateBondandAdminRole("") {
 
  function buybond (uint id) external payable  {
         
-    require (msg.value == 1 ether, "Incorrect amount for this bond");
+    //require (msg.value == 1 ether, "Incorrect amount for this bond");
 
   
 
@@ -81,13 +81,19 @@ constructor() CreateBondandAdminRole("") {
 
         //this line will transfer the bonds to the user 
        _safeTransferFrom(address(this), msg.sender, id, 1, " ");
-
+        bondsByBuyersAddr[msg.sender].push(id);
       
     }
 
+     function getbondsByBuyersAddr(address addr) external returns (uint[] memory){
+        return bondsByBuyersAddr[addr];
 
+     }  
    
-  
+         function getBondsinExistence() external returns (Info[] memory){
+        return BondsinExistence;
+
+     } 
 
 
     

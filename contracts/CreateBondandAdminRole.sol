@@ -73,6 +73,7 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
     Info[] public BondsinExistence;
     
     
+    mapping (address => uint[]) public userCreatedBonds;
 
     //this is to create an ADMIN role 
     mapping (address => bool) public adminrole;
@@ -196,7 +197,8 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
        
        
         _mint(address(this), currentBondId, amount, "0x");
-
+        userCreatedBonds[msg.sender].push(currentBondId);
+        
     BondsinExistence.push(Info(bondName,
        block.timestamp,
          bondMaturityDate,
@@ -241,11 +243,16 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
 
     //this function is to initialize the admin role. This will provide the devs with funds 
     function addADMINrole () external payable  {
-        require (msg.value == .001 ether, " please send .001 ether");     
+       // require (msg.value == 0 ether, " please send .001 ether");     
         adminrole[msg.sender] = true;    
     }
 
-   
+    function getUserCreatedBonds(address addr) external view returns (uint[] memory){
+       return userCreatedBonds[addr];
+    }
+    function getAllBonds() external returns (Info[] memory) {
+       return BondsinExistence;
+    }
 
 
 

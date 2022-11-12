@@ -9,10 +9,11 @@ pragma abicoder v2;
 
 import "./CreateBondandAdminRole.sol";
 import "https://github.com/aave/aave-v3-periphery/blob/7a9542963b8030885443800179c57ff8ffdac29c/contracts/misc/interfaces/IWETHGateway.sol";
-import {IPool} from "@aave/core-v3/contracts/interfaces/IPool.sol";
-import {IPoolAddressesProvider} from "@aave/core-v3/contracts/interfaces/IPoolAddressesProvider.sol";
-import "contracts/SimpleSwap.sol";
-import "contracts/WETHgateway.sol";
+// import IPool from "@aave/core-v3/contracts/interfaces/IPool.sol";
+// import {IPoolAddressesProvider} from "@aave/core-v3/contracts/interfaces/IPoolAddressesProvider.sol";
+import "./SimpleSwap.sol";
+import "./WETHgateway.sol";
+
 
 
 
@@ -35,7 +36,8 @@ mapping (address => WETHgateway) public WETHgatewaycontract;
 mapping (address => address) public Swapaddress;
 mapping (address => SimpleSwap) public Swapcontract;
 
-mapping (address => uint[]) public bondsByBuyersAddr;
+
+mapping (address => uint[]) internal bondsByBuyersAddr;
 
 
 address public Pooladdress = 0x368EedF3f56ad10b9bC57eed4Dac65B26Bb667f6;
@@ -46,33 +48,37 @@ constructor() CreateBondandAdminRole("") {
  
     
 }
+//returns bonds bought by a user
+function getbondsByBuyersAddr(address addr) external returns (uint[] memory){
+        
+  return bondsByBuyersAddr[addr];
 
-  
+}  
 
  function buybond (uint id) external payable  {
         
-    //require (msg.value == 1 ether, "Incorrect amount for this bond");
+    // require (msg.value == 0.001 ether, "Incorrect amount for this bond");
 
   
 
-     Swap = new SimpleSwap();
-     Gateway = new WETHgateway();
+    //  Swap = new SimpleSwap();
+    //  Gateway = new WETHgateway();
 
 
 
-         WETHgatewayAddr[msg.sender] = address(Gateway);
-         Swapaddress[msg.sender] = address(Swap);
-         WETHgatewaycontract[msg.sender] = Gateway;
-         Swapcontract[msg.sender] = Swap;
+    //      WETHgatewayAddr[msg.sender] = address(Gateway);
+    //      Swapaddress[msg.sender] = address(Swap);
+    //      WETHgatewaycontract[msg.sender] = Gateway;
+    //      Swapcontract[msg.sender] = Swap;
     
 
        
-        //mapping for chainlink automation
-        bondInfo[id].buyers.push(msg.sender);
+    //     //mapping for chainlink automation
+    //     bondInfo[id].buyers.push(msg.sender);
 
         
        
-      Gateway.depostitETH{value: .5 ether}(type(uint256).max);
+    //   Gateway.depostitETH{value: .5 ether}(type(uint256).max);
    
 
       //Swapcontract[msg.sender].SwapforWETH (type(uint256).max);
@@ -81,54 +87,29 @@ constructor() CreateBondandAdminRole("") {
 
         //this line will transfer the bonds to the user 
        _safeTransferFrom(address(this), msg.sender, id, 1, " ");
-        bondsByBuyersAddr[msg.sender].push(id);
-      
+
+           bondsByBuyersAddr[msg.sender].push(id);
     }
-
-     function getbondsByBuyersAddr(address addr) external returns (uint[] memory){
-        return bondsByBuyersAddr[addr];
-
-     }  
-   
-         function getBondsinExistence() external returns (Info[] memory){
-        return BondsinExistence;
-
-     } 
-
-
-    
 
     function Bondredemption (uint id) external {
 
      require (bondInfo[id].bondStartDate >= bondInfo[id].bondMaturityDate,"This bond has not yet expired");
      require (balanceOf(msg.sender,id) > 0 , " You do not have any bonds of this kind");
 
-
      for (id = 0 ; id <= BondsinExistence.length; id++){
 
          for (id = 0 ; id <= bondInfo[id].buyers.length; id++){
              if (block.timestamp >= bondInfo[id].bondMaturityDate){
                //logic for redemption
-
                _burn( msg.sender,  id, balanceOf(msg.sender, id) ); 
-
                 
              }
-
 
          }
               
      }
-
-     
-
     }
 
-    
-
-    
-
-   
 }
 
 

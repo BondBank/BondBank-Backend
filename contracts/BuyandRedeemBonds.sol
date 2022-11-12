@@ -49,7 +49,7 @@ constructor() CreateBondandAdminRole("") {
     
 }
 //returns bonds bought by a user
-function getbondsByBuyersAddr(address addr) external returns (uint[] memory){
+function getbondsByBuyersAddr(address addr) external view returns (uint[] memory){
         
   return bondsByBuyersAddr[addr];
 
@@ -87,7 +87,7 @@ function getbondsByBuyersAddr(address addr) external returns (uint[] memory){
 
         //this line will transfer the bonds to the user 
        _safeTransferFrom(address(this), msg.sender, id, 1, " ");
-
+//added to track bonds by buyers, donot remove
            bondsByBuyersAddr[msg.sender].push(id);
     }
 

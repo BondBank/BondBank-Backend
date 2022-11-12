@@ -246,10 +246,11 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
        // require (msg.value == 0 ether, " please send .001 ether");     
         adminrole[msg.sender] = true;    
     }
-
+    //returns Bonds created by a single user
     function getUserCreatedBonds(address addr) external view returns (uint[] memory){
        return userCreatedBonds[addr];
     }
+    //returns all Bonds in existence
     function getAllBonds() external view returns (Info[] memory) {
        return BondsinExistence;
     }

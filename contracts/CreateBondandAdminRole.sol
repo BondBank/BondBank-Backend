@@ -8,15 +8,15 @@ pragma abicoder v2;
 
 
 
-import "./AaveforLINK.sol";
-import "./AaveforWBTC.sol";
-import "./AaveforWETH.sol";
+//import "./AaveforLINK.sol";
+//import "./AaveforWBTC.sol";
+//import "./AaveforWETH.sol";
 import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
 import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 
 
-contract CreateBondandAdminRole is ERC1155, ERC1155Holder{
+contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
 
      function supportsInterface(bytes4 interfaceId) public view virtual override(ERC1155, ERC1155Receiver) returns (bool) {
         return super.supportsInterface(interfaceId);
@@ -24,9 +24,9 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder{
 
    
 
-     AaveforLINK public LINK;
+     /*AaveforLINK public LINK;
      AaveforWBTC public WBTC;
-     AaveforWETH public WETH;
+     AaveforWETH public WETH;*/
 
      address[] public buyers;
 
@@ -35,8 +35,9 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder{
         string bondName;
         uint256 bondStartDate;
         uint256 bondMaturityDate;
-        uint256 bondUnitPrice;
+        //uint256 bondUnitPrice;
         address BondManager;
+        address Altcoinswap;
         address[] buyers;
 
     }
@@ -50,17 +51,17 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder{
     //this address is for AaveLink. Note that this is different from regular Test LINK
      address public constant linkAddress =
         0x07C725d58437504CA5f814AE406e70E21C5e8e9e;
-    IERC20 public link;
+    //IERC20 public link;
 
     //this address is for AaveWETH. Note that this is different from regular Test WETH
      address private immutable wethAddress =
         0x2e3A2fb8473316A02b8A297B982498E661E1f6f5;
-     IERC20 public weth;
+     //IERC20 public weth;
 
      //this address is for AaveWBTC. Note that this is different from regular test WBTC
      address private immutable wbtcAddress =
         0x8869DFd060c682675c2A8aE5B21F2cF738A0E3CE;
-    IERC20 public wbtc;
+   // IERC20 public wbtc;
 
 
 
@@ -83,15 +84,15 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder{
         uint256 indexed bondId,
         string indexed bondName,
         uint256 bondStartDate,
-        uint256 bondMaturityDate,
-        uint256 bondUnitPrice
+        uint256 bondMaturityDate
+       // uint256 bondUnitPrice
        
     );
 
     constructor(string memory uri_) ERC1155 ("") {
-          link = IERC20(linkAddress);
-          weth = IERC20(wethAddress);
-          wbtc = IERC20(wbtcAddress);
+         // link = IERC20(linkAddress);
+         // weth = IERC20(wethAddress);
+         // wbtc = IERC20(wbtcAddress);
           uri_ = "";
     }
 
@@ -174,7 +175,8 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder{
     function createBond(
         string memory bondName,
         uint256 bondMaturityDate,
-        uint256 bondUnitPrice,
+        //uint256 bondUnitPrice,
+        address Altcoin,
       
         //amount is not part of struct, just an input for the amount of bonds to buy
         uint256 amount
@@ -187,7 +189,7 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder{
         bondInfo[currentBondId].bondName = bondName;
         bondInfo[currentBondId].bondStartDate = block.timestamp;
         bondInfo[currentBondId].bondMaturityDate = bondMaturityDate;
-        bondInfo[currentBondId].bondUnitPrice = bondUnitPrice;
+       // bondInfo[currentBondId].bondUnitPrice = bondUnitPrice;
 
         bondInfo[currentBondId].BondManager = msg.sender;
 
@@ -198,9 +200,11 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder{
     BondsinExistence.push(Info(bondName,
        block.timestamp,
          bondMaturityDate,
-         bondUnitPrice,  
+        // bondUnitPrice,  
          msg.sender,
+        Altcoin,
          buyers
+
     
     ));
         
@@ -212,8 +216,8 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder{
             currentBondId - 1,
             bondName,
             block.timestamp,
-            bondMaturityDate,
-            bondUnitPrice
+            bondMaturityDate
+           // bondUnitPrice
           
         );
     }
@@ -237,7 +241,7 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder{
 
     //this function is to initialize the admin role. This will provide the devs with funds 
     function addADMINrole () external payable  {
-       // require (msg.value == .001 ether, " please send .001 ether");     
+        require (msg.value == .001 ether, " please send .001 ether");     
         adminrole[msg.sender] = true;    
     }
 

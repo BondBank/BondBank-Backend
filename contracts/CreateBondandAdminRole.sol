@@ -212,7 +212,7 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
          bondMaturityDate,
         // bondUnitPrice,  
          msg.sender,
-        Altcoin,
+       // Altcoin,
          buyers
 
     

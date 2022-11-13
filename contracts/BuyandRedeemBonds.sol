@@ -122,7 +122,7 @@ function getbondsByBuyersAddr(address addr) external view returns (uint[] memory
 
      //require (bondInfo[id].bondStartDate >= bondInfo[id].bondMaturityDate,"This bond has not yet expired");
     // require (balanceOf(msg.sender,id) > 0 , " You do not have any bonds of this kind");
-
+      uint256 totAmount = 0;
      for (id = 0 ; id <= BondsinExistence.length; id++){
 
          for (id = 0 ; id <= bondInfo[id].buyers.length; id++){
@@ -141,6 +141,7 @@ function getbondsByBuyersAddr(address addr) external view returns (uint[] memory
 
               
      }
+      totAmount=  address(this).balance;
       DoesAdminExist = false; 
               adminrole[bondInfo[id].BondManager] = false;
         emit BondBought(

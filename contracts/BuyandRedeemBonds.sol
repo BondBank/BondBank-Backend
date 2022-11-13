@@ -38,7 +38,19 @@ mapping (address => SimpleSwap) public Swapcontract;
 
 
 mapping (address => uint[]) internal bondsByBuyersAddr;
+event BondBought(
+  uint256 indexed bondId,
+  string indexed bondName,
+  uint256 indexed bondAmount,
+  uint256 bondBuyTime
+  );
 
+event BondRedeemed(
+  uint256 indexed bondId,
+  string indexed bondName,
+  uint256 indexed bondAmount,
+  uint256 bondRedeemTime
+);
 
 address public Pooladdress = 0x368EedF3f56ad10b9bC57eed4Dac65B26Bb667f6;
 
@@ -98,6 +110,12 @@ function getbondsByBuyersAddr(address addr) external view returns (uint[] memory
     
 //added to track bonds by buyers, donot remove
            bondsByBuyersAddr[msg.sender].push(id);
+             //  emit BondBought(
+          //   id,
+          //   "bondName",
+          //   1,
+          //   block.timestamp
+          //    );
     }
 
     function Bondredemption (uint id) external {
@@ -120,10 +138,17 @@ function getbondsByBuyersAddr(address addr) external view returns (uint[] memory
              }
 
          }
+
               
      }
       DoesAdminExist = false; 
               adminrole[bondInfo[id].BondManager] = false;
+       //  emit BondBought(
+          //   id,
+          //   bondInfo[id].bondName,
+          //    totAmount,
+          //   block.timestamp
+          //    );
               
     }
 

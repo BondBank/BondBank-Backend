@@ -101,7 +101,8 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
           uri_ = "";
     }
 
-    //Contract is becoming too big. Should this function be here?
+   function commentedCode(){
+     //Contract is becoming too big. Should this function be here?
    /* function _beforeTokenTransfer(
         address,
         address from,
@@ -176,6 +177,8 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
     ) external  {
         _burnBatch(from, ids, amounts);
     } */
+
+   }
 
     function createBond(
         string memory bondName,
@@ -262,7 +265,16 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
     function getAllBonds() external view returns (Info[] memory) {
        return BondsinExistence;
     }
-
+    // returns true, if admin flag is set to calling address;else false
+    function checkIfAddminRoleIsPresent () public view returns (bool) {
+        if(adminrole[msg.sender] == true)
+        {
+            return true;
+        }else{
+            return false;
+        }
+        
+    }
 
 
 }

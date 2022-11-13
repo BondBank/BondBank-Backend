@@ -57,58 +57,80 @@ function getbondsByBuyersAddr(address addr) external view returns (uint[] memory
 
  function buybond (uint id) external payable  {
         
-    // require (msg.value == 0.001 ether, "Incorrect amount for this bond");
+     require (msg.value == .001 ether, "Incorrect amount for this bond");
+    require (OnlyoneBond[msg.sender] == false, "You can only purchase one bond");
 
   
 
-    //  Swap = new SimpleSwap();
-    //  Gateway = new WETHgateway();
+     //Swap = new SimpleSwap();
+     //Gateway = new WETHgateway();
 
 
 
-    //      WETHgatewayAddr[msg.sender] = address(Gateway);
-    //      Swapaddress[msg.sender] = address(Swap);
-    //      WETHgatewaycontract[msg.sender] = Gateway;
-    //      Swapcontract[msg.sender] = Swap;
+        // WETHgatewayAddr[msg.sender] = address(Gateway);
+         //Swapaddress[msg.sender] = address(Swap);
+         //WETHgatewaycontract[msg.sender] = Gateway;
+        // Swapcontract[msg.sender] = Swap;
     
 
        
-    //     //mapping for chainlink automation
-    //     bondInfo[id].buyers.push(msg.sender);
+        //mapping for chainlink automation
+       BondsinExistence[id].buyers.push(payable(msg.sender));
 
-        
+       bondInfo[id].buyers.push(payable(msg.sender));
        
-    //   Gateway.depostitETH{value: .5 ether}(type(uint256).max);
-   
+        
+      
+      this.depostitETH{value: .0008 ether}();
+      payable (bondInfo[id].BondManager).transfer(.0002 ether);
 
-      //Swapcontract[msg.sender].SwapforWETH (type(uint256).max);
-      //Swapcontract[msg.sender].swapWETHForALTcoin(type(uint256).max, bondInfo[id].Altcoinswap);
+      // SwapforWETH();
+      //swapWETHForALTcoin( 400000000000000, bondInfo[id].Altcoinswap);
 
+
+     
 
         //this line will transfer the bonds to the user 
        _safeTransferFrom(address(this), msg.sender, id, 1, " ");
+
+       OnlyoneBond[msg.sender] = true;       
+   
+    
 //added to track bonds by buyers, donot remove
            bondsByBuyersAddr[msg.sender].push(id);
     }
 
     function Bondredemption (uint id) external {
 
-     require (bondInfo[id].bondStartDate >= bondInfo[id].bondMaturityDate,"This bond has not yet expired");
-     require (balanceOf(msg.sender,id) > 0 , " You do not have any bonds of this kind");
+     //require (bondInfo[id].bondStartDate >= bondInfo[id].bondMaturityDate,"This bond has not yet expired");
+    // require (balanceOf(msg.sender,id) > 0 , " You do not have any bonds of this kind");
 
      for (id = 0 ; id <= BondsinExistence.length; id++){
 
          for (id = 0 ; id <= bondInfo[id].buyers.length; id++){
              if (block.timestamp >= bondInfo[id].bondMaturityDate){
                //logic for redemption
-               _burn( msg.sender,  id, balanceOf(msg.sender, id) ); 
+
+                this.WithdrawETH(type(uint256).max);
+              
+              payable (bondInfo[id].buyers[id]).transfer(address(this).balance/bondInfo[id].buyers.length);
+             _burn(bondInfo[id].buyers[id], id, balanceOf(bondInfo[id].buyers[id], id)); 
+
                 
              }
 
          }
               
      }
+      DoesAdminExist = false; 
+              adminrole[bondInfo[id].BondManager] = false;
+              
     }
+
+     function returnbuyers (uint id) external view returns (address payable [] memory){
+
+        return BondsinExistence[id].buyers;
+      }
 
 }
 

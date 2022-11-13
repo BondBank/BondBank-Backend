@@ -32,7 +32,7 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
 
      uint public numberofBondsinCirculation;
 
-     address[] public buyers;
+     address payable[] public buyers;
 
     // JSON-like structure containing info on each bond
     struct Info {
@@ -101,7 +101,7 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
           uri_ = "";
     }
 
-   function commentedCode(){
+   function commentedCode() public view{
      //Contract is becoming too big. Should this function be here?
    /* function _beforeTokenTransfer(
         address,

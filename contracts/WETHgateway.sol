@@ -37,22 +37,36 @@ constructor() {
 }
 
 
+// function depostitETH (uint amount) external payable {
+
+// //WETHgatewayContract.depositETH{value: (amount)}(pooladdress, address(this), 0);
+// WETHgatewayContract.depositETH{value: (.0005 ether)}(pooladdress, address(this), 0);
+
+// }
 
 
-function depostitETH (uint amount) external payable {
+function depostitETH () external payable {
 
-WETHgatewayContract.depositETH{value: (amount)}(pooladdress, address(this), 0);
+
+WETHgatewayContract.depositETH{value: (.0005 ether)}(pooladdress, address(this), 0);
 
 }
 
 
-function WithdrawETH (address investor) external  {
+// function WithdrawETH (address investor) external  {
 
-    WETHgatewayContract.withdrawETH(pooladdress, type(uint256).max, address(this));
+//     WETHgatewayContract.withdrawETH(pooladdress, type(uint256).max, address(this));
 
-    selfdestruct(payable(investor));
+//     selfdestruct(payable(investor));
+// }
+
+
+function WithdrawETH (uint256 amount) external  {
+
+    WETHgatewayContract.withdrawETH(pooladdress, amount, address(this));
+
+   // selfdestruct(payable(investor));
 }
-
 
  function approveWETH() internal
     {

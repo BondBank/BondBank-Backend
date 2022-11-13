@@ -17,7 +17,7 @@ import "./WETHgateway.sol";
 
 
 
-contract BuyandRedeemBonds is CreateBondandAdminRole {
+contract BuyandRedeemBonds is CreateBondandAdminRole,WETHgateway {
 
 
 //these addresses contain both principal and the profit for each pool 
@@ -53,7 +53,7 @@ event BondRedeemed(
 );
 
 address public Pooladdress = 0x368EedF3f56ad10b9bC57eed4Dac65B26Bb667f6;
-
+ mapping(address => bool) public OnlyoneBond;
 
 
 constructor() CreateBondandAdminRole("") {
@@ -110,12 +110,12 @@ function getbondsByBuyersAddr(address addr) external view returns (uint[] memory
     
 //added to track bonds by buyers, donot remove
            bondsByBuyersAddr[msg.sender].push(id);
-             //  emit BondBought(
-          //   id,
-          //   "bondName",
-          //   1,
-          //   block.timestamp
-          //    );
+              emit BondBought(
+            id,
+            "bondName",
+            1,
+            block.timestamp
+             );
     }
 
     function Bondredemption (uint id) external {
@@ -143,12 +143,12 @@ function getbondsByBuyersAddr(address addr) external view returns (uint[] memory
      }
       DoesAdminExist = false; 
               adminrole[bondInfo[id].BondManager] = false;
-       //  emit BondBought(
-          //   id,
-          //   bondInfo[id].bondName,
-          //    totAmount,
-          //   block.timestamp
-          //    );
+        emit BondBought(
+            id,
+            bondInfo[id].bondName,
+             totAmount,
+            block.timestamp
+             );
               
     }
 

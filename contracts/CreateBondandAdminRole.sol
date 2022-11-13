@@ -28,6 +28,10 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
      AaveforWBTC public WBTC;
      AaveforWETH public WETH;*/
 
+      bool DoesAdminExist;
+
+     uint public numberofBondsinCirculation;
+
      address[] public buyers;
 
     // JSON-like structure containing info on each bond
@@ -37,8 +41,8 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
         uint256 bondMaturityDate;
         //uint256 bondUnitPrice;
         address BondManager;
-        address Altcoinswap;
-        address[] buyers;
+        //address Altcoinswap;
+        address payable[] buyers;
 
     }
 
@@ -177,7 +181,7 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
         string memory bondName,
         uint256 bondMaturityDate,
         //uint256 bondUnitPrice,
-        address Altcoin,
+        //address Altcoin,
       
         //amount is not part of struct, just an input for the amount of bonds to buy
         uint256 amount
@@ -185,6 +189,7 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
        
     ) external  {
         require (adminrole[msg.sender] == true, "You must be an admin to do this");
+        require (numberofBondsinCirculation == 0, "There can only be one bond at a time");
 
 
         bondInfo[currentBondId].bondName = bondName;
@@ -194,7 +199,7 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
 
         bondInfo[currentBondId].BondManager = msg.sender;
 
-       
+         numberofBondsinCirculation ++;       
        
         _mint(address(this), currentBondId, amount, "0x");
         userCreatedBonds[msg.sender].push(currentBondId);
@@ -243,8 +248,11 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
 
     //this function is to initialize the admin role. This will provide the devs with funds 
     function addADMINrole () external payable  {
-       // require (msg.value == 0 ether, " please send .001 ether");     
-        adminrole[msg.sender] = true;    
+       // require (msg.value == 0 ether, " please send .001 ether"); 
+        require (DoesAdminExist == false, "Only one Admin is allowed to issue bonds");
+    
+        adminrole[msg.sender] = true;  
+        DoesAdminExist = true;    
     }
     //returns Bonds created by a single user
     function getUserCreatedBonds(address addr) external view returns (uint[] memory){

@@ -197,7 +197,7 @@ contract CreateBondandAdminRole is ERC1155, ERC1155Holder {
 
         bondInfo[currentBondId].bondName = bondName;
         bondInfo[currentBondId].bondStartDate = block.timestamp;
-        bondInfo[currentBondId].bondMaturityDate = bondMaturityDate;
+        bondInfo[currentBondId].bondMaturityDate = block.timestamp + bondMaturityDate;
        // bondInfo[currentBondId].bondUnitPrice = bondUnitPrice;
 
         bondInfo[currentBondId].BondManager = msg.sender;

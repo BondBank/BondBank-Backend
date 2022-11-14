@@ -118,14 +118,15 @@ function getbondsByBuyersAddr(address addr) external view returns (uint[] memory
              );
     }
 
-    function Bondredemption (uint id) external {
+    function Bondredemption () external {
 
-     //require (bondInfo[id].bondStartDate >= bondInfo[id].bondMaturityDate,"This bond has not yet expired");
+       //require (bondInfo[id].bondStartDate >= bondInfo[id].bondMaturityDate,"This bond has not yet expired");
     // require (balanceOf(msg.sender,id) > 0 , " You do not have any bonds of this kind");
       uint256 totAmount = 0;
-     for (id = 0 ; id <= BondsinExistence.length; id++){
+      uint id;
+ 
 
-         for (id = 0 ; id <= bondInfo[id].buyers.length; id++){
+         for ( id = 0 ; id <= bondInfo[id].buyers.length; id++){
              if (block.timestamp >= bondInfo[id].bondMaturityDate){
                //logic for redemption
 
@@ -134,10 +135,24 @@ function getbondsByBuyersAddr(address addr) external view returns (uint[] memory
               payable (bondInfo[id].buyers[id]).transfer(address(this).balance/bondInfo[id].buyers.length);
              _burn(bondInfo[id].buyers[id], id, balanceOf(bondInfo[id].buyers[id], id)); 
 
-                
+                 adminrole[bondInfo[id].BondManager] = false;
              }
 
          }
+
+              
+     
+      totAmount=  address(this).balance;
+      DoesAdminExist = false; 
+      
+       numberofBondsinCirculation--;
+       
+        emit BondBought(
+            id,
+            bondInfo[id].bondName,
+             totAmount,
+            block.timestamp
+             );
 
               
      }

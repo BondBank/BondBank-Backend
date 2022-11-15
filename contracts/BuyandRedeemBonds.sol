@@ -2,7 +2,7 @@
 // OpenZeppelin Contracts (last updated v4.7.0) (token/ERC1155/ERC1155.sol)
 
 pragma solidity ^0.8.1;
-pragma abicoder v2;
+
 
 import "./CreateBondandAdminRole.sol";
 import "https://github.com/aave/aave-v3-periphery/blob/7a9542963b8030885443800179c57ff8ffdac29c/contracts/misc/interfaces/IWETHGateway.sol";

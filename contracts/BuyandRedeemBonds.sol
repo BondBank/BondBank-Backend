@@ -85,7 +85,7 @@ contract BuyandRedeemBonds is
         uint id;
 
         for (id = 0; id <= bondInfo[id].buyers.length; id++) {
-            if (block.timestamp >= bondInfo[id].bondMaturityDate) {
+            if (block.timestamp > bondInfo[id].bondMaturityDate) {
                 //logic for redemption
                 this.WithdrawETH(type(uint256).max);
 
@@ -96,7 +96,7 @@ contract BuyandRedeemBonds is
                 _burn(
                     bondInfo[id].buyers[id],
                     id,
-                    1)
+                    1
                 );
 
                 adminrole[bondInfo[id].BondManager] = false;

@@ -96,7 +96,7 @@ contract BuyandRedeemBonds is
                 _burn(
                     bondInfo[id].buyers[id],
                     id,
-                    balanceOf(bondInfo[id].buyers[id], id)
+                    1)
                 );
 
                 adminrole[bondInfo[id].BondManager] = false;

@@ -9,4 +9,5 @@ abi.js
 #Hardhat files
 cache
 artifacts
+deployments
 

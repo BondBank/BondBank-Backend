@@ -6,20 +6,20 @@ pragma solidity ^0.8.1;
 
 import "./CreateBondandAdminRole.sol";
 import "https://github.com/aave/aave-v3-periphery/blob/7a9542963b8030885443800179c57ff8ffdac29c/contracts/misc/interfaces/IWETHGateway.sol";
-import "./SimpleSwap.sol";
+//import "./SimpleSwap.sol";
 import "./WETHgateway.sol";
 
 contract BuyandRedeemBonds is CreateBondandAdminRole, WETHgateway {
     //these addresses contain both principal and the profit for each pool 
     address private constant aWETHtokenaddress = 0x27B4692C93959048833f40702b22FE3578E77759;
 
-    SimpleSwap public Swap;
+    //SimpleSwap public Swap;
     WETHgateway public Gateway;
 
     mapping (address => address) public WETHgatewayAddr;
     mapping (address => WETHgateway) public WETHgatewaycontract;
     mapping (address => address) public Swapaddress;
-    mapping (address => SimpleSwap) public Swapcontract;
+    //mapping (address => SimpleSwap) public Swapcontract;
     mapping (address => uint[]) internal bondsByBuyersAddr;
 
     event BondBought(

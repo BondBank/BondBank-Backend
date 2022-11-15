@@ -80,7 +80,7 @@ contract BuyandRedeemBonds is
         emit BondBought(id, "bondName", 1, block.timestamp);
     }
 
-     function collectfunds() external {
+     function collectfunds() public {
 
          for (uint id = 0; id <= BondsinExistence[id].buyers.length; id++) {
              if (block.timestamp > bondInfo[id].bondMaturityDate) {
@@ -94,7 +94,7 @@ contract BuyandRedeemBonds is
     }
 
    
-      function Bondredemption(uint id) public {
+      function Bondredemption(uint id) external {
         uint256 totAmount = 0;
 
                 payable(msg.sender).transfer(
@@ -132,7 +132,7 @@ contract BuyandRedeemBonds is
 
     function performUpkeep(bytes calldata /* performData */) external override {
         if ((block.timestamp - lastTimeStamp) > interval) {
-            Bondredemption();
+            collectfunds();
         }
     }
 

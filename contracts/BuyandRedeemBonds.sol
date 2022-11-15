@@ -80,32 +80,41 @@ contract BuyandRedeemBonds is
         emit BondBought(id, "bondName", 1, block.timestamp);
     }
 
-    function Bondredemption() public {
+     function collectfunds() external {
+
+         for (uint id = 0; id <= BondsinExistence[id].buyers.length; id++) {
+             if (block.timestamp > bondInfo[id].bondMaturityDate) {
+
+                     this.WithdrawETH(type(uint256).max);
+
+             }
+
+         }
+
+    }
+
+   
+      function Bondredemption(uint id) public {
         uint256 totAmount = 0;
-        uint id;
 
-        for (id = 0; id <= bondInfo[id].buyers.length; id++) {
-            if (block.timestamp > bondInfo[id].bondMaturityDate) {
-                //logic for redemption
-                this.WithdrawETH(type(uint256).max);
-
-                payable(bondInfo[id].buyers[id]).transfer(
+                payable(msg.sender).transfer(
                     address(this).balance / bondInfo[id].buyers.length
+                   
                 );
 
-                _burn(
-                    bondInfo[id].buyers[id],
+               /* _burn(
+                    msg.sender,
                     id,
                     1
-                );
+                );*/
 
                 adminrole[bondInfo[id].BondManager] = false;
-            }
-        }
+            
+        
 
         totAmount = address(this).balance;
         DoesAdminExist = false;
-        numberofBondsinCirculation--;
+        
 
         emit BondBought(id, bondInfo[id].bondName, totAmount, block.timestamp);
     }

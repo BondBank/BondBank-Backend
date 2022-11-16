@@ -5,25 +5,21 @@ pragma solidity ^0.8.1;
 
 import "@chainlink/contracts/src/v0.8/AutomationCompatible.sol";
 import "./CreateBondandAdminRole.sol";
-// import "./SimpleSwap.sol";
 import "./WETHgateway.sol";
+import "./Vault.sol";
 
 contract BuyandRedeemBonds is
+    Vault,
     CreateBondandAdminRole,
-    WETHgateway,
+   WETHgateway,
     AutomationCompatibleInterface
 {
     //these addresses contain both principal and the profit for each pool
     address private constant aWETHtokenaddress =
         0x27B4692C93959048833f40702b22FE3578E77759;
 
-    //SimpleSwap public Swap;
-    WETHgateway public Gateway;
-
-    mapping(address => address) public WETHgatewayAddr;
-    mapping(address => WETHgateway) public WETHgatewaycontract;
-    mapping(address => address) public Swapaddress;
-    // mapping(address => SimpleSwap) public Swapcontract;
+   
+  
     mapping(address => uint[]) internal bondsByBuyersAddr;
 
     event BondBought(
@@ -67,12 +63,16 @@ contract BuyandRedeemBonds is
         BondsinExistence[id].buyers.push(payable(msg.sender));
         bondInfo[id].buyers.push(payable(msg.sender));
 
-        this.depostitETH{value: .0008 ether}();
-        payable(bondInfo[id].BondManager).transfer(.0002 ether);
+        depositETH();
+        payable(bondInfo[id].BondManager).transfer(.0001 ether);
 
         //this line will transfer the bonds to the user
         _safeTransferFrom(address(this), msg.sender, id, 1, " ");
 
+        //this line will initate the deposit 
+        deposit();
+
+        //mapping to make sure that the msg.sender has one bond
         OnlyoneBond[msg.sender] = true;
 
         //added to track bonds by buyers, donot remove
@@ -80,40 +80,48 @@ contract BuyandRedeemBonds is
         emit BondBought(id, "bondName", 1, block.timestamp);
     }
 
+
+    //function for automation
      function collectfunds() public {
 
-         for (uint id = 0; id <= BondsinExistence[id].buyers.length; id++) {
-             if (block.timestamp > bondInfo[id].bondMaturityDate) {
+          for (uint id = 0; id <= 20; id++) {
+            if (block.timestamp > bondInfo[id].bondMaturityDate){
+                    WithdrawETH(type(uint256).max);
+                    break;
 
-                     this.WithdrawETH(type(uint256).max);
-
-             }
-
-         }
-
+            }
     }
+     }
+    
+         
+
+    
 
    
       function Bondredemption(uint id) external {
         uint256 totAmount = 0;
+        require( OnlyoneBond[msg.sender]  == true, " you do not have any bonds");
+       require (block.timestamp > bondInfo[id].bondMaturityDate, "this bond has not matured yet");
 
-                payable(msg.sender).transfer(
-                    address(this).balance / bondInfo[id].buyers.length
-                   
-                );
+            //function to withdraw funds
+              withdraw();
 
-               /* _burn(
+            //function to burn bonds
+                _burn(
                     msg.sender,
                     id,
                     1
-                );*/
+                );
 
                 adminrole[bondInfo[id].BondManager] = false;
+                OnlyoneBond[msg.sender]  == false;
             
         
-
+        
         totAmount = address(this).balance;
         DoesAdminExist = false;
+       OneBondinCirculation = false;
+        
         
 
         emit BondBought(id, bondInfo[id].bondName, totAmount, block.timestamp);
@@ -133,7 +141,7 @@ contract BuyandRedeemBonds is
     function performUpkeep(bytes calldata /* performData */) external override {
         if ((block.timestamp - lastTimeStamp) > interval) {
             lastTimeStamp = block.timestamp;
-            collectfunds();
+           collectfunds();
         }
     }
 
@@ -142,4 +150,60 @@ contract BuyandRedeemBonds is
     ) external view returns (address payable[] memory) {
         return BondsinExistence[id].buyers;
     }
+
+        //function to calculate shares
+        function deposit() public virtual payable override  {
+        /*
+        a = amount
+        B = balance of token before deposit
+        T = total supply
+        s = shares to mint
+
+        (T + s) / T = (a + B) / B 
+
+        s = aT / B
+        */
+        uint shares;
+        if (totalSupply == 0) {
+            shares = 1;
+              mintshares(msg.sender, shares);
+        } else {
+            shares = (1 * totalSupply) / address(this).balance;
+              mintshares(msg.sender, shares);
+        }
+
+      
+      
+    }
+
+    //function to calculate how much to withdraw
+     function withdraw() public override  {
+        /*
+        a = amount
+        B = balance of token before withdraw
+        T = total supply
+        s = shares to burn
+
+        (T - s) / T = (B - a) / B 
+
+        a = sB / T
+        */
+
+        uint amount = (1 * address(this).balance) / totalSupply;
+        burnshares(msg.sender, 1);
+        payable(msg.sender).transfer( amount);
+    }
+
+
+    //function to see balance and see if automation is working 
+    function returnbalance () external view returns (uint){
+
+        return IERC20(aWETH).balanceOf(address(this));
+
+    }
+
+
+
+
+
 }

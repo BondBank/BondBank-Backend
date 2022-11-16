@@ -46,11 +46,11 @@ module.exports = {
             blockConfirmations: 1,
             url: "http://127.0.0.1:8545"
         },
-        mumbai: {
-            url: "https://rpc.ankr.com/polygon_mumbai",
-            chainId: 80001,
-            accounts: [process.env.PRIVATE_KEY1, process.env.PRIVATE_KEY2]
-        },
+        // mumbai: {
+        //     url: "https://rpc.ankr.com/polygon_mumbai",
+        //     chainId: 80001,
+        //     accounts: [process.env.PRIVATE_KEY1, process.env.PRIVATE_KEY2]
+        // },
         goerli: {
             chainId: 5,
             blockConfirmations: 6,

@@ -37,42 +37,32 @@ constructor() {
 }
 
 
-// function depostitETH (uint amount) external payable {
-
-// //WETHgatewayContract.depositETH{value: (amount)}(pooladdress, address(this), 0);
-// WETHgatewayContract.depositETH{value: (.0005 ether)}(pooladdress, address(this), 0);
-
-// }
 
 
-function depostitETH () external payable {
+
+function depositETH () public payable {
 
 
-WETHgatewayContract.depositETH{value: (.0005 ether)}(pooladdress, address(this), 0);
+WETHgatewayContract.depositETH{value: (.0008 ether)}(pooladdress, address(this), 0);
 
 }
 
 
-// function WithdrawETH (address investor) external  {
-
-//     WETHgatewayContract.withdrawETH(pooladdress, type(uint256).max, address(this));
-
-//     selfdestruct(payable(investor));
-// }
 
 
-function WithdrawETH (uint256 amount) external  {
+
+function WithdrawETH (uint256 amount) public  {
 
     WETHgatewayContract.withdrawETH(pooladdress, amount, address(this));
 
-   // selfdestruct(payable(investor));
+  
 }
 
  function approveWETH() internal
     {
-        IERC20(aWETH).approve(WETHgatewayaddress, 115792089237316195423570985008687907853269984665640564039457584007913129);
+        IERC20(aWETH).approve(WETHgatewayaddress, 758400791312900000);
    
-        IERC20(aWETH).approve(pooladdress, 115792089237316195423570985008687907853269984665640564039457584007913129);
+        IERC20(aWETH).approve(pooladdress, 7584007913129000000);
     }
 
  

@@ -33,16 +33,16 @@ contract Vault  {
         */
         uint shares;
         if (totalSupply == 0) {
-            shares = msg.value;
+            shares = 1;
         } else {
-            shares = (msg.value * totalSupply) / address(this).balance;
+            shares = (1 * totalSupply) / address(this).balance;
         }
 
         mintshares(msg.sender, shares);
       //  token.transferFrom(msg.sender, address(this), _amount);
     }
 
-    function withdraw(uint _shares) public virtual {
+    function withdraw() public virtual {
         /*
         a = amount
         B = balance of token before withdraw
@@ -53,8 +53,8 @@ contract Vault  {
 
         a = sB / T
         */
-        uint amount = (_shares * address(this).balance) / totalSupply;
-        burnshares(msg.sender, _shares);
+        uint amount = (1 * address(this).balance) / totalSupply;
+        burnshares(msg.sender, 1);
         payable(msg.sender).transfer( amount);
     }
 

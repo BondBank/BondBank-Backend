@@ -1,42 +1,35 @@
-# BondBank
+## BondBank
 
 This is a defi project that will use ERC1155 to issue ETFs/Bonds to investors
 
-Motivation: For unsophisticated investors, there are very limited ways to gain exposure to various defi protocols. This projects aims to make this process simple by offering investors a financial instrument (ERC1155 token) that provides that exposure to the market.
+Motivation: For unsophisticated crypto investors, there are very limited ways to generate passive income that is safe and predictable. Currently most methods for generating passive income has come from Cefi protocols such as Celcius, Crypto.com, and Blockfi. Recent events has proven that these institutions are not trsutworthy, as they were able to hide their insolvency from the public; It is clear that there is a need for decentralized, on-chain bonds for investors. This project aims to make this process simple by allowing fund managers to offer investors a crypto bonds (ERC1155 token) that provides that exposure to the market. In this project, we will use Aave and integrate their WETH gateway contract to show a working example of how the bonds will work. 
+
+
+
+
+## Instructions: 
+
+Step 1 : Become an Admin. Select Admin role to gain the right to create bonds. Only person a can be an Admin at a time 
+
+Step 2: Create Bond. Currently you can adjust the amount of bonds to issue and the bond maturity date 
+
+Step 3: Buy the bonds. Users can now purchase the bonds (limited to one per user)
+
+Step 4:  Wait until maturity date to collect funds. Interest will accure after every block. Can be viewed in the return bonds function
+
+Step 5: Select Bond Redemption to collect funds 
+
+
+
 
 ## TeamMembers
 
-   ### SmartContract Developers:
-    [Harish](https://github.com/BlockchainDeveloper009)
-    [Michael](https://github.com/AmadiMichael)
-    [Joel](https://github.com/JJtheAndroid)
+ 
+    (https://github.com/BlockchainDeveloper009)
+    (https://github.com/JJtheAndroid)
+    (https://github.com/levblanc)
       
-   ### FrontEnd Developers:
+
    
    
-    
-    
-   
-## Flows:
 
-   ### Flow1:
-   ![bondBank-Flow1](https://user-images.githubusercontent.com/97905727/196010440-921b6b03-7635-4e52-9dc8-6d0bb9bee281.jpg)
-   
-   ### Flow2:
-     Coming Soon...
-
-## BondCreation:
-================
-   ### Params:
-      bondMaturityDate (we should term or maturityDate
-      bondMaxUnit (should we this or time box the buying period to users)
-      balances (why do we need balances?)
-
-
-## Resources:
-=============
-   
-   Formula: https://youtu.be/k7WNibJOBXE
-
-
-## Thanks for Reading. :-)

@@ -19,7 +19,7 @@ Step 4:  Wait until maturity date to collect funds. Interest will accure after e
 
 Step 5: Select Bond Redemption to collect funds 
 
-
+[Refer this Link to check the steps with Screenshots of the Dapp ](https://github.com/BondBank/BondBank-Frontend/blob/main/README.md)
 
 
 ## TeamMembers
@@ -30,6 +30,6 @@ Step 5: Select Bond Redemption to collect funds
     (https://github.com/levblanc)
       
 
-   
+## Thanks for reading :-)
    
 

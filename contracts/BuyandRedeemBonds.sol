@@ -11,8 +11,8 @@ import "./Vault.sol";
 contract BuyandRedeemBonds is
     Vault,
     CreateBondandAdminRole,
-   WETHgateway,
-    AutomationCompatibleInterface
+   WETHgateway
+   
 {
     //these addresses contain both principal and the profit for each pool
     address private constant aWETHtokenaddress =
@@ -39,11 +39,10 @@ contract BuyandRedeemBonds is
     address public Pooladdress = 0x368EedF3f56ad10b9bC57eed4Dac65B26Bb667f6;
     mapping(address => bool) public OnlyoneBond;
 
-    uint public immutable interval = 15 * 60 * 60; // 15 mins, in seconds
-    uint public lastTimeStamp;
+   
 
     constructor() CreateBondandAdminRole("") {
-        lastTimeStamp = block.timestamp;
+      
     }
 
     //returns bonds bought by a user
@@ -127,23 +126,6 @@ contract BuyandRedeemBonds is
         emit BondBought(id, bondInfo[id].bondName, totAmount, block.timestamp);
     }
 
-    function checkUpkeep(
-        bytes calldata /* checkData */
-    )
-        external
-        view
-        override
-        returns (bool upkeepNeeded, bytes memory /* performData */)
-    {
-        upkeepNeeded = (block.timestamp - lastTimeStamp) > interval;
-    }
-
-    function performUpkeep(bytes calldata /* performData */) external override {
-        if ((block.timestamp - lastTimeStamp) > interval) {
-            lastTimeStamp = block.timestamp;
-           collectfunds();
-        }
-    }
 
     function returnbuyers(
         uint id

@@ -25,9 +25,9 @@ Step 5: Select Bond Redemption to collect funds
 ## TeamMembers
 
  
-    (https://github.com/BlockchainDeveloper009)
-    (https://github.com/JJtheAndroid)
-    (https://github.com/levblanc)
+    [Harish - FullStack Dev](https://github.com/BlockchainDeveloper009)
+    [Joel - Smart contract Dev](https://github.com/JJtheAndroid)
+    [Nikko - FullStack Dev](https://github.com/levblanc)
       
 
 ## Thanks for reading :-)

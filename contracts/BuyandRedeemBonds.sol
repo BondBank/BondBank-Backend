@@ -114,7 +114,7 @@ contract BuyandRedeemBonds is
                 );
 
                 adminrole[bondInfo[id].BondManager] = false;
-                OnlyoneBond[msg.sender]  == false;
+                OnlyoneBond[msg.sender]  = false;
             
         
         

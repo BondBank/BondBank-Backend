@@ -17,6 +17,13 @@ Step 3: Buy the bonds. Users can now purchase the bonds (limited to one per user
 
 Step 4:  Wait until maturity date to collect funds. Interest will accure after every block. Can be viewed in the return bonds function
 
+We tried tried chainlink automation two ways
+1. calling methods from code as per below screenshot
+
+2. Setting up Keep up from 
+![image](https://user-images.githubusercontent.com/97905727/202830320-d6b119f7-a3c6-429f-b704-141adefd03b8.png)
+
+
 Step 5: Select Bond Redemption to collect funds 
 
 [Refer this Link to check the steps with Screenshots of the Dapp ](https://github.com/BondBank/BondBank-Frontend/blob/main/README.md)

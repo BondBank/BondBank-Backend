@@ -17,6 +17,8 @@ Step 3: Buy the bonds. Users can now purchase the bonds (limited to one per user
 
 Step 4:  Wait until maturity date to collect funds. Interest will accure after every block. Can be viewed in the return bonds function
 
+We also tried chainlink KeepUpautomation from UI.
+
 ![image](https://user-images.githubusercontent.com/97905727/202828299-bb117aba-9dd2-41e4-a814-2d502ee626ee.png)
 
 Step 5: Select Bond Redemption to collect funds 

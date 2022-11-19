@@ -20,6 +20,8 @@ Step 4:  Wait until maturity date to collect funds. Interest will accure after e
 We tried tried chainlink automation two ways
 1. calling methods from code as per below screenshot
 
+![image](https://user-images.githubusercontent.com/97905727/202830373-fdcfe0f1-9dda-4e23-ab98-40ca57fc8dfc.png)
+
 2. Setting up Keep up from 
 ![image](https://user-images.githubusercontent.com/97905727/202830320-d6b119f7-a3c6-429f-b704-141adefd03b8.png)
 
